@@ -1,31 +1,58 @@
-Hello World
-This Solidity program is a simple "Hello World" program that demonstrates the basic syntax and functionality of the Solidity programming language. The purpose of this program is to serve as a starting point for those who are new to Solidity and want to get a feel for how it works.
+# ExampleContract
 
-Description
-This program is a simple contract written in Solidity, a programming language used for developing smart contracts on the Ethereum blockchain. The contract has a single function that returns the string "Hello World!". This program serves as a simple and straightforward introduction to Solidity programming, and can be used as a stepping stone for more complex projects in the future.
+## Overview
 
-Getting Started
-Executing program
-To run this program, you can use Remix, an online Solidity IDE. To get started, go to the Remix website at https://remix.ethereum.org/.
+`ExampleContract` is a smart contract written in Solidity that demonstrates the use of `require()`, `assert()`, and `revert()` statements. The contract includes basic functionalities such as depositing and withdrawing funds, checking the balance, and triggering assert and revert statements.
 
-Once you are on the Remix website, create a new file by clicking on the "+" icon in the left-hand sidebar. Save the file with a .sol extension (e.g., HelloWorld.sol). Copy and paste the following code into the file:
+## Features
 
-pragma solidity ^0.8.4;
+- **Owner Management**: The contract owner is set at deployment and only the owner can withdraw funds.
+- **Deposit and Withdraw**: Users can deposit funds into the contract, and the owner can withdraw funds.
+- **Balance Check**: Users can check the contract balance.
+- **Assert and Revert**: Functions to demonstrate the usage of `assert()` and `revert()` statements.
 
-contract HelloWorld {
-    function sayHello() public pure returns (string memory) {
-        return "Hello World!";
-    }
-}
-To compile the code, click on the "Solidity Compiler" tab in the left-hand sidebar. Make sure the "Compiler" option is set to "0.8.4" (or another compatible version), and then click on the "Compile HelloWorld.sol" button.
+## Contract Functions
 
-Once the code is compiled, you can deploy the contract by clicking on the "Deploy & Run Transactions" tab in the left-hand sidebar. Select the "HelloWorld" contract from the dropdown menu, and then click on the "Deploy" button.
+### `deposit(uint256 amount)`
 
-Once the contract is deployed, you can interact with it by calling the sayHello function. Click on the "HelloWorld" contract in the left-hand sidebar, and then click on the "sayHello" function. Finally, click on the "transact" button to execute the function and retrieve the "Hello World!" message.
+Allows users to deposit funds into the contract.
 
-Authors
-Metacrafter Chris
-@metacraftersio
+- **Parameters**: 
+  - `amount` (uint256): The amount to be deposited.
+- **Requirements**:
+  - `msg.value` must be equal to `amount`.
 
-License
-This project is licensed under the MIT License - see the LICENSE.md file for details
+### `withdraw(uint256 amount)`
+
+Allows the owner to withdraw funds from the contract.
+
+- **Parameters**:
+  - `amount` (uint256): The amount to be withdrawn.
+- **Requirements**:
+  - Only the owner can call this function.
+  - The contract balance must be greater than or equal to the withdrawal amount.
+
+### `checkBalance()`
+
+Returns the current balance of the contract.
+
+- **Returns**: 
+  - `balance` (uint256): The current balance.
+
+### `triggerAssert()`--> A function that always fails with an `assert` statement.
+
+### `triggerRevert()`-->A function that manually reverts with a custom message.
+
+## Deployment
+
+The contract can be deployed using the provided Truffle migration script:
+
+**```Javascript**
+const ExampleContract = artifacts.require("ExampleContract");
+
+module.exports = function(deployer) {
+  deployer.deploy(ExampleContract);
+};
+
+
+
